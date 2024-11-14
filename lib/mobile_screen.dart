@@ -53,9 +53,18 @@ class _MobileViewScreenState extends State<MobileViewScreen> with TickerProvider
     final random = Random();
     int randomNumber = random.nextInt(3) + 1;
     final screenSize = MediaQuery.of(context).size;
+    final safePadding = MediaQuery.of(context).padding;
 
-    final x = random.nextDouble() * (screenSize.width - 180).clamp(0, screenSize.width - 180);
-    final y = max(170.0, random.nextDouble() * (screenSize.height - 180).clamp(0, screenSize.height - 180));
+// Calculate the size available within the SafeArea
+    final safeAreaWidth = screenSize.width;
+    final safeAreaHeight = screenSize.height - safePadding.top - safePadding.bottom;
+
+    double imageSize = 130.0; // Size of the images
+
+// Use clamp to ensure x and y remain within the screen bounds
+    final x = random.nextDouble() * (safeAreaWidth - imageSize).clamp(0, safeAreaWidth - imageSize);
+    final y = max(150.0, random.nextDouble() * (safeAreaHeight - imageSize).clamp(0, safeAreaHeight - imageSize));
+
 
     setState(() {
       currentImage = "assets/images/target$randomNumber.png";
